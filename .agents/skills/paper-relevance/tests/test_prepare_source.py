@@ -69,6 +69,7 @@ class SourceTests(unittest.TestCase):
         self.assertEqual(packet['source']['sha256'], hashlib.sha256(raw).hexdigest())
         self.assertEqual(packet['source']['origin'], 'https://example.org/paper')
         self.assertEqual(self.source.read_bytes(), raw)
+        self.assertIn('SOURCE_PACKET_SHA256: ' + hashlib.sha256(self.output.read_bytes()).hexdigest(), result.stdout)
         self.assertNotIn('다음 행', result.stdout)
 
     def test_explicit_abstract_scope(self):
