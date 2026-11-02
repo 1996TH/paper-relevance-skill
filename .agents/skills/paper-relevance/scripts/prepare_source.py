@@ -136,10 +136,12 @@ def main():
     args = parser.parse_args()
     try:
         packet = prepare(args.input, args.output, args.origin, args.scope)
+        packet_sha256 = hashlib.sha256(args.output.read_bytes()).hexdigest()
     except (SourceError, OSError, ValueError, RecursionError) as error:
         print(f'FAIL SOURCE: {error}')
         return 2
     print(f'PREPARED: {args.output}')
+    print(f'SOURCE_PACKET_SHA256: {packet_sha256}')
     print(f"pages={len(packet['pages'])}; lines={sum(len(p['text'].splitlines()) for p in packet['pages'])}; scope={packet['source']['available_scope']}")
     for warning in packet['warnings']:
         print(f'NOTE: {warning}')
